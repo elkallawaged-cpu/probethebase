@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="PROBE THE BASE Mission Manual: how to play, the storm checklist, the space quiz, and a teacher guide with a lesson plan and worksheet.">
+<title>Mission Manual | PROBE THE BASE</title>
+<link rel="icon" href="../assets/images/badge_success.png" type="image/png">
+<style>
+:root {
+  --paper: #f4f7fa;
+  --sheet: #ffffff;
+  --ink: #14233c;
+  --ink-2: #4a5b75;
+  --line: #c9d5e2;
+  --panel: #e7eef5;
+  --cyan: #0b8da1;
+  --cyan-soft: #d7f0f4;
+  --amber: #e39b12;
+  --amber-soft: #fdf1d8;
+  --rust: #c2502c;
+  --rust-soft: #fbe5dd;
+  --green: #23864f;
+  --green-soft: #e0f3e8;
+  --night: #0d1830;
+  --round: "Nunito", ui-rounded, "SF Pro Rounded", "Inter", system-ui, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+* { box-sizing: border-box; }
+html { background: var(--paper); }
+body { margin: 0; color: var(--ink); font: 16px/1.6 var(--body); -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--cyan); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+
+/* ---------- Screen chrome ---------- */
+.toolbar {
+  position: sticky; top: 0; z-index: 5;
+  display: flex; gap: 12px; align-items: center; justify-content: space-between;
+  padding: 10px 20px; background: var(--night); color: #dbe7f5;
+}
+.toolbar strong { font-family: var(--round); font-weight: 900; letter-spacing: .02em; }
+.toolbar nav { display: flex; gap: 10px; flex-wrap: wrap; }
+.toolbar a {
+  color: #0d1830; background: #8fe3ef; text-decoration: none; font-weight: 800;
+  padding: 7px 14px; border-radius: 999px; font-size: 14px;
+}
+.toolbar a.alt { background: transparent; color: #dbe7f5; box-shadow: inset 0 0 0 2px #3a5578; }
+
+.book { max-width: 860px; margin: 0 auto; padding: 28px 18px 80px; }
+.page {
+  background: var(--sheet); border-radius: 18px; padding: 44px 52px;
+  margin: 0 0 28px; box-shadow: 0 1px 0 var(--line), 0 18px 40px rgba(20, 35, 60, .08);
+}
+
+/* ---------- Cover ---------- */
+.cover {
+  background: var(--night); color: #eaf2fb; padding: 0; overflow: hidden; position: relative;
+  min-height: 1060px; display: flex; flex-direction: column;
+}
+.cover svg.scene { width: 100%; height: auto; display: block; }
+.cover-text { padding: 8px 56px 48px; margin-top: auto; }
+.cover h1 {
+  font-family: var(--round); font-weight: 900; font-size: 64px; line-height: .98;
+  margin: 0 0 14px; letter-spacing: -.01em;
+}
+.cover .sub { font-size: 22px; color: #9fd8e2; margin: 0 0 30px; font-family: var(--round); font-weight: 800; }
+.cover dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 18px; margin: 0; font-size: 15px; color: #c3d2e4; }
+.cover dt { color: #8fa6c3; }
+.cover dd { margin: 0; }
+.cover .edition { margin-top: 34px; font-size: 13px; color: #8fa6c3; }
+
+/* ---------- Type ---------- */
+.part-title {
+  font-family: var(--round); font-weight: 900; font-size: 40px; line-height: 1.05; margin: 0 0 8px;
+}
+.part-lede { font-size: 19px; color: var(--ink-2); max-width: 56ch; margin: 0 0 26px; }
+h2 {
+  font-family: var(--round); font-weight: 900; font-size: 27px; line-height: 1.2;
+  margin: 40px 0 10px; display: flex; align-items: baseline; gap: 12px;
+}
+h2:first-child { margin-top: 0; }
+h2 .ch {
+  flex: none; font-size: 15px; font-weight: 900; color: #fff; background: var(--cyan);
+  border-radius: 8px; padding: 2px 9px; transform: translateY(-3px);
+}
+.teacher h2 .ch { background: var(--amber); color: #3a2500; }
+h3 { font-family: var(--round); font-weight: 900; font-size: 19px; margin: 24px 0 6px; }
+p, li { max-width: 68ch; }
+.kid p, .kid li { font-size: 17.5px; line-height: 1.6; }
+ul, ol { padding-left: 1.3em; }
+li { margin: 4px 0; }
+.small { font-size: 14px; color: var(--ink-2); }
+
+/* ---------- Building blocks ---------- */
+.systems { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
+.sys { border: 2px solid var(--line); border-radius: 14px; padding: 14px 16px; display: grid; grid-template-columns: 52px 1fr; gap: 4px 14px; align-items: start; }
+.sys .ico { grid-row: span 3; width: 52px; height: 52px; background: url('../assets/images/subsystem_icons.png') no-repeat; background-size: 208px 52px; }
+.sys .ico.ls { background-position: 0 0; } .sys .ico.sh { background-position: -52px 0; }
+.sys .ico.rs { background-position: -104px 0; } .sys .ico.cm { background-position: -156px 0; }
+.sys b { font-family: var(--round); font-size: 18px; }
+.sys .tag { justify-self: start; font-size: 12px; font-weight: 800; border-radius: 999px; padding: 1px 9px; }
+.tag.crit { background: var(--green-soft); color: var(--green); }
+.tag.opt { background: #ece6fb; color: #5b3fb0; }
+.sys p { margin: 0; font-size: 15.5px !important; color: var(--ink-2); }
+
+.rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0 6px; padding: 0; list-style: none; counter-reset: rule; }
+.rules li { counter-increment: rule; background: var(--panel); border-radius: 14px; padding: 16px; font-weight: 700; font-size: 16.5px !important; line-height: 1.4; max-width: none; }
+.rules li::before { content: counter(rule); display: grid; place-items: center; width: 34px; height: 34px; margin-bottom: 8px; border-radius: 50%; background: var(--ink); color: #fff; font-family: var(--round); font-weight: 900; }
+
+figure { margin: 18px 0; }
+figure img { border-radius: 12px; box-shadow: 0 0 0 1px var(--line); }
+figcaption { font-size: 14px; color: var(--ink-2); margin-top: 8px; }
+.callouts { position: relative; }
+.callouts .n {
+  position: absolute; width: 26px; height: 26px; transform: translate(-50%, -50%);
+  border-radius: 50%; background: var(--amber); color: #2b1a00; border: 2px solid #fff;
+  font: 900 13px/22px var(--round); text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,.35);
+}
+.legend { columns: 2; column-gap: 28px; padding-left: 0; list-style: none; margin: 10px 0 0; }
+.legend li { break-inside: avoid; display: grid; grid-template-columns: 30px 1fr; gap: 6px; font-size: 15.5px !important; margin: 0 0 8px; }
+.legend li span { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--amber); font: 900 12px var(--round); color: #2b1a00; }
+
+/* The storm checklist: the one loud thing in this book */
+.procedure {
+  margin: 22px 0; border-radius: 16px; overflow: hidden;
+  border: 3px solid var(--rust); background: #fff;
+}
+.procedure header {
+  background: var(--rust); color: #fff; padding: 12px 20px;
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+}
+.procedure header b { font-family: var(--round); font-weight: 900; font-size: 22px; }
+.procedure header span { font-size: 13px; opacity: .9; }
+.procedure ol { list-style: none; margin: 0; padding: 6px 20px 14px; counter-reset: step; }
+.procedure li {
+  counter-increment: step; display: grid; grid-template-columns: 30px 34px 1fr; gap: 10px; align-items: start;
+  padding: 12px 0; border-bottom: 1px dashed var(--line); max-width: none; margin: 0;
+}
+.procedure li:last-child { border-bottom: 0; }
+.procedure li::before { content: counter(step); font: 900 20px/28px var(--round); color: var(--rust); }
+.procedure .box { width: 26px; height: 26px; border: 3px solid var(--ink); border-radius: 6px; margin-top: 2px; }
+.procedure li b { display: block; font-family: var(--round); font-size: 18px; }
+.procedure li em { font-style: normal; color: var(--ink-2); font-size: 15.5px; }
+
+.note { border-radius: 12px; padding: 14px 18px; margin: 18px 0; font-size: 15.5px; }
+.note p { margin: 0; }
+.note.tip { background: var(--cyan-soft); border-left: 6px solid var(--cyan); }
+.note.warn { background: var(--amber-soft); border-left: 6px solid var(--amber); }
+.note b { font-family: var(--round); }
+
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+
+table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: 15px; }
+th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--round); font-weight: 900; background: var(--panel); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.glossary { display: grid; grid-template-columns: max-content 1fr; gap: 8px 18px; margin: 12px 0; }
+.glossary dt { font-family: var(--round); font-weight: 900; }
+.glossary dd { margin: 0; color: var(--ink-2); }
+
+.timeline { list-style: none; padding: 0; margin: 14px 0; border-left: 4px solid var(--amber); }
+.timeline li { position: relative; padding: 0 0 16px 20px; max-width: none; }
+.timeline li::before { content: ""; position: absolute; left: -10px; top: 6px; width: 16px; height: 16px; border-radius: 50%; background: var(--amber); border: 3px solid #fff; }
+.timeline .t { font-family: var(--round); font-weight: 900; color: #8a5a00; }
+
+.worksheet li { margin: 0 0 18px; }
+.answer-line { display: block; border-bottom: 2px solid var(--line); height: 30px; margin-top: 6px; max-width: 340px; }
+.log td { height: 44px; }
+
+.keys kbd {
+  font: 800 13px var(--body); background: var(--panel); border: 1px solid var(--line);
+  border-bottom-width: 3px; border-radius: 6px; padding: 1px 7px; white-space: nowrap;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 720px) {
+  .page { padding: 28px 22px; border-radius: 14px; }
+  .cover h1 { font-size: 44px; }
+  .cover-text { padding: 8px 24px 32px; }
+  .cover { min-height: 0; }
+  .systems, .rules, .two { grid-template-columns: 1fr; }
+  .legend { columns: 1; }
+}
+
+/* ---------- Print / PDF ---------- */
+@page { size: A4; margin: 16mm 15mm 18mm; }
+@page cover { margin: 0; }
+@media print {
+  html, body { background: #fff; }
+  .toolbar, .screen-only { display: none !important; }
+  .book { max-width: none; padding: 0; margin: 0; }
+  .page { box-shadow: none; border-radius: 0; padding: 0; margin: 0 0 8mm; }
+  .page.newpage { break-before: page; margin-top: 0; }
+  .cover { break-after: page; margin: 0; }
+  table.long { break-inside: auto; }
+  table.long tr { break-inside: avoid; }
+  .cover { page: cover; height: 297mm; min-height: 0; border-radius: 0; }
+  h2, h3 { break-after: avoid; }
+  figure, .procedure, .sys, table, .note, .rules li, .worksheet li { break-inside: avoid; }
+  a { color: inherit; text-decoration: none; }
+  .kid p, .kid li { font-size: 14.5px; line-height: 1.5; }
+  body { font-size: 13.5px; }
+  h2 { margin-top: 26px; font-size: 23px; }
+  .part-title { font-size: 34px; }
+  .part-lede { font-size: 16px; margin-bottom: 16px; }
+  figure { margin: 12px 0; }
+  figure.wide img { max-height: 92mm; width: auto; margin: 0 auto; }
+  th, td { padding: 6px 8px; }
+  .legend li { font-size: 13.5px !important; margin-bottom: 4px; }
+  .procedure li { padding: 8px 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+
+<div class="toolbar screen-only">
+  <strong>PROBE THE BASE · Mission Manual</strong>
+  <nav aria-label="Manual actions">
+    <a href="PROBE-THE-BASE-Manual.pdf" download>Download PDF</a>
+    <a class="alt" href="../">Back to the game</a>
+  </nav>
+</div>
+
+<main class="book">
+
+<!-- =========================== COVER =========================== -->
+<section class="page cover" aria-label="Cover">
+  <svg class="scene" viewBox="0 0 800 560" role="img" aria-label="A domed base on a red planet, with the Sun sending a solar flare towards it">
+    <defs>
+      <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+        <stop offset="0" stop-color="#fff4c2"/><stop offset=".55" stop-color="#ffc23d"/><stop offset="1" stop-color="#ff7a1a"/>
+      </radialGradient>
+      <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#c2502c"/><stop offset="1" stop-color="#5a1f12"/>
+      </linearGradient>
+    </defs>
+    <rect width="800" height="560" fill="#0d1830"/>
+    <g fill="#ffffff">
+      <circle cx="80" cy="60" r="1.6" opacity=".8"/><circle cx="210" cy="120" r="1.2" opacity=".6"/><circle cx="330" cy="40" r="1.8" opacity=".9"/>
+      <circle cx="450" cy="150" r="1.1" opacity=".5"/><circle cx="120" cy="230" r="1.4" opacity=".7"/><circle cx="380" cy="250" r="1" opacity=".5"/>
+      <circle cx="270" cy="300" r="1.5" opacity=".6"/><circle cx="60" cy="350" r="1.2" opacity=".6"/><circle cx="520" cy="60" r="1.3" opacity=".7"/>
+      <circle cx="560" cy="300" r="1.1" opacity=".5"/><circle cx="160" cy="160" r=".9" opacity=".5"/>
+    </g>
+    <!-- Sun with a flare loop -->
+    <circle cx="690" cy="110" r="150" fill="#ffb52e" opacity=".12"/>
+    <circle cx="690" cy="110" r="92" fill="url(#sun)"/>
+    <path d="M612 150 C 560 120, 560 60, 622 70" fill="none" stroke="#ffdf80" stroke-width="9" stroke-linecap="round" opacity=".9"/>
+    <!-- Particle stream heading for the base -->
+    <g stroke="#ffd36b" stroke-linecap="round" stroke-dasharray="2 16" stroke-width="5" opacity=".85">
+      <path d="M600 160 Q 470 250 330 360"/><path d="M620 190 Q 520 290 390 380"/><path d="M585 135 Q 430 220 270 345"/>
+    </g>
+    <!-- Ground -->
+    <path d="M0 430 Q 160 390 300 420 T 560 410 T 800 420 V560 H0 Z" fill="url(#ground)"/>
+    <path d="M0 470 Q 220 440 420 468 T 800 460 V560 H0 Z" fill="#7a2a18" opacity=".7"/>
+    <!-- Shield bubble + base -->
+    <path d="M200 432 A 150 150 0 0 1 500 432" fill="#36c9dc" opacity=".14" stroke="#7fe4f0" stroke-width="3" stroke-dasharray="10 8"/>
+    <path d="M270 432 A 80 64 0 0 1 430 432 Z" fill="#dbe7f5" stroke="#14233c" stroke-width="4"/>
+    <path d="M300 432 A 50 40 0 0 1 400 432" fill="none" stroke="#9fb3cc" stroke-width="3"/>
+    <rect x="336" y="404" width="28" height="28" rx="6" fill="#14233c"/>
+    <circle cx="350" cy="418" r="5" fill="#36c9dc"/>
+    <!-- Solar panels -->
+    <g stroke="#14233c" stroke-width="3">
+      <line x1="470" y1="432" x2="470" y2="404"/><rect x="448" y="384" width="56" height="22" rx="3" fill="#36c9dc" transform="rotate(-12 476 395)"/>
+      <line x1="530" y1="430" x2="530" y2="402"/><rect x="508" y="382" width="56" height="22" rx="3" fill="#36c9dc" transform="rotate(-12 536 393)"/>
+    </g>
+    <!-- Antenna -->
+    <g stroke="#14233c" stroke-width="3" fill="none"><line x1="230" y1="430" x2="230" y2="388"/><path d="M212 392 Q 230 372 248 392"/></g>
+    <circle cx="230" cy="384" r="5" fill="#ffb52e" stroke="#14233c" stroke-width="2"/>
+  </svg>
+  <div class="cover-text">
+    <h1>PROBE<br>THE BASE</h1>
+    <p class="sub">Mission Manual for junior astronauts</p>
+    <dl>
+      <dt>Who it’s for</dt><dd>Players aged 7 to 12, their teachers and their families</dd>
+      <dt>What’s inside</dt><dd>How to play, the storm checklist, the space quiz, a lesson plan and a worksheet</dd>
+      <dt>Real data</dt><dd>Solar flares and CMEs from NASA DONKI, crew-health rules informed by NASA OSDR</dd>
+    </dl>
+    <p class="edition">Version 3.0 · NASA Space Apps Challenge · Not endorsed by NASA</p>
+  </div>
+</section>
+
+<!-- =========================== CONTENTS =========================== -->
+<section class="page newpage" aria-labelledby="toc">
+  <h2 id="toc">What’s in this manual</h2>
+  <table>
+    <thead><tr><th>Part</th><th>Chapter</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="9"><b>Cadet handbook</b><br><span class="small">for players</span></td><td>1 · Your mission</td></tr>
+      <tr><td>2 · Meet your base</td></tr>
+      <tr><td>3 · The three golden rules</td></tr>
+      <tr><td>4 · Reading your screen</td></tr>
+      <tr><td>5 · When the alert goes off: the storm checklist</td></tr>
+      <tr><td>6 · Practice with Probe</td></tr>
+      <tr><td>7 · The space quiz and your stars</td></tr>
+      <tr><td>8 · Your score and your rank</td></tr>
+      <tr><td>9 · Pro tips and space words</td></tr>
+      <tr><td rowspan="6"><b>Teacher and parent guide</b></td><td>10 · What children learn</td></tr>
+      <tr><td>11 · A 45-minute lesson</td></tr>
+      <tr><td>12 · Questions to talk about</td></tr>
+      <tr><td>13 · Worksheet: power puzzles (with answers)</td></tr>
+      <tr><td>14 · Mission log</td></tr>
+      <tr><td>15 · Where the science comes from</td></tr>
+      <tr><td><b>Quick reference</b></td><td>Controls, numbers, settings and the quiz answer key</td></tr>
+    </tbody>
+  </table>
+  <div class="note tip"><p><b>Grown-ups:</b> children can read Part 1 on their own or with you. Part 2 has everything you need to run the game as a class activity.</p></div>
+</section>
+
+<!-- =========================== PART 1 =========================== -->
+<section class="page kid newpage" aria-labelledby="p1">
+  <p class="part-title" id="p1">Cadet handbook</p>
+  <p class="part-lede">Everything you need to keep your crew safe when the Sun throws a storm at your base.</p>
+
+  <h2><span class="ch">1</span>Your mission</h2>
+  <p>You are in charge of the power on a space base, on Mars or on the Moon. Your crew lives inside. Your job is to keep them healthy for the whole mission, which lasts <b>90 seconds</b>. In the game, every second is one hour on the base.</p>
+  <p>The Sun sometimes has storms. A <b>solar flare</b> sends out a burst of radiation that can hurt your crew, and it makes your solar panels give you less power. The flares in this game come from <b>NASA’s real space-weather database</b>, so your mission can change from day to day.</p>
+  <p>Mars has very thin air and the Moon has almost none. Neither one has a magnetic bubble like Earth does, so radiation from the Sun reaches the ground. That’s why your base needs shields.</p>
+
+  <figure class="wide">
+    <img src="img/mode-select.jpg" alt="The mission select screen, with Mars on the left and the Moon on the right, and buttons for practising with Probe and opening the mission manual" width="1280" height="720">
+    <figcaption>Pick Mars or the Moon. Turn on “Practice with Probe” for your first flight.</figcaption>
+  </figure>
+
+  <table>
+    <thead><tr><th>Base</th><th class="num">Solar panels</th><th>When the flare hits</th><th>Real flare used offline</th></tr></thead>
+    <tbody>
+      <tr><td><b>Mars</b> (Jezero Crater)</td><td class="num">100 kW</td><td>Hour 15. Panels drop to about 60 kW.</td><td>X8.2 flare, 10 September 2017</td></tr>
+      <tr><td><b>Moon</b> (Shackleton Crater)</td><td class="num">80 kW</td><td>Hour 20. Panels drop to about 60 kW.</td><td>X9.0 flare, 3 October 2024</td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="ch">2</span>Meet your base</h2>
+  <p>Your base has four systems. You give each one power with a slider, from 0 to 50 kW. A <b>kW</b> (kilowatt) is a way of measuring power.</p>
+  <div class="systems">
+    <div class="sys"><span class="ico ls" aria-hidden="true"></span><b>Life Support</b><span class="tag crit">critical</span><p>Makes air, keeps the crew warm and cleans the water. Needs 25 kW or more, always.</p></div>
+    <div class="sys"><span class="ico sh" aria-hidden="true"></span><b>Shielding</b><span class="tag crit">critical</span><p>Blocks radiation. 20 kW blocks half of it. 40 kW blocks all of it.</p></div>
+    <div class="sys"><span class="ico rs" aria-hidden="true"></span><b>Research</b><span class="tag opt">optional</span><p>Runs experiments and makes science points.</p></div>
+    <div class="sys"><span class="ico cm" aria-hidden="true"></span><b>Comms</b><span class="tag opt">optional</span><p>Sends the science to Earth. 10 kW sends all of it.</p></div>
+  </div>
+  <p>You only have as much power as your solar panels make. That’s your <b>power budget</b>. If you ask for more than the panels make, the base browns out: the lights flicker, the heaters stall and the crew gets hurt.</p>
+
+  <h2><span class="ch">3</span>The three golden rules</h2>
+  <ol class="rules">
+    <li>Keep Life Support at 25 kW or more.</li>
+    <li>Never use more power than your panels make.</li>
+    <li>Keep the radiation reaching your crew low. Shielding does that.</li>
+  </ol>
+  <p>When all three rules are kept, your crew slowly gets healthier. When one is broken, your crew loses health. If crew health reaches zero, the mission fails.</p>
+</section>
+
+<section class="page kid newpage" aria-labelledby="ch4">
+  <h2 id="ch4"><span class="ch">4</span>Reading your screen</h2>
+  <p>Here is the base during a flare, after the player has made the right moves. The numbers match the list underneath.</p>
+  <figure>
+    <div class="callouts">
+      <img src="img/hud-flare.jpg" alt="The mission screen during a solar flare. A health bar and radiation numbers run across the top, system checks are on the left, power sliders are on the right and a message box is at the bottom." width="1280" height="720">
+      <span class="n" style="left:2.4%;top:4.2%">1</span>
+      <span class="n" style="left:17.6%;top:4.2%">2</span>
+      <span class="n" style="left:33.9%;top:4.2%">3</span>
+      <span class="n" style="left:45.4%;top:4.2%">4</span>
+      <span class="n" style="left:54.4%;top:5.2%">5</span>
+      <span class="n" style="left:62.8%;top:5.2%">6</span>
+      <span class="n" style="left:73%;top:5.2%">7</span>
+      <span class="n" style="left:1.8%;top:17.6%">8</span>
+      <span class="n" style="left:74.4%;top:17.6%">9</span>
+      <span class="n" style="left:74.4%;top:59%">10</span>
+      <span class="n" style="left:19.4%;top:86.8%">11</span>
+      <span class="n" style="left:89.6%;top:90%">12</span>
+    </div>
+    <figcaption>Mars base, X8.2 flare. Research and Comms are off, and Shielding has every spare kilowatt.</figcaption>
+  </figure>
+  <ul class="legend">
+    <li><span>1</span>Crew health. It turns red below 40%.</li>
+    <li><span>2</span>Solar radiation outside, and how much is reaching your crew through the shields.</li>
+    <li><span>3</span>Power you are using, out of what the panels make right now.</li>
+    <li><span>4</span>Science points sent to Earth.</li>
+    <li><span>5</span>Time left in the mission.</li>
+    <li><span>6</span>Your live score (the CTI, see chapter 8).</li>
+    <li><span>7</span>Radiation chart. Red is outside, cyan reaches the crew, yellow dashes are the danger line. The label under it says where today’s flare came from.</li>
+    <li><span>8</span>System checks: three lights for air, radiation and power, plus a tip from mission control.</li>
+    <li><span>9</span>Power sliders. Green tags are critical systems, purple tags are optional.</li>
+    <li><span>10</span>Power budget: how many kW you have spare, or how much you are over.</li>
+    <li><span>11</span>Messages from mission control.</li>
+    <li><span>12</span>The <b>?</b> button opens this manual. The speaker turns sound on and off.</li>
+  </ul>
+
+  <h3>What the lights mean</h3>
+  <table>
+    <thead><tr><th>Light</th><th>What it means</th><th>What to do</th></tr></thead>
+    <tbody>
+      <tr><td><b style="color:var(--green)">Green</b></td><td>This rule is kept.</td><td>Nothing. Keep it that way.</td></tr>
+      <tr><td><b style="color:#a26d00">Yellow</b> (radiation only)</td><td>The storm is so strong that your power can’t block all of it, but your shields are as high as they can go.</td><td>Hold on. You made the best trade-off. The storm will fade.</td></tr>
+      <tr><td><b style="color:var(--rust)">Red</b></td><td>A rule is broken and your crew is losing health.</td><td>Read the tip under the lights. It tells you which slider to move.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="page kid" aria-labelledby="ch5">
+  <h2 id="ch5"><span class="ch">5</span>When the alert goes off</h2>
+  <p>You will hear a siren, the screen will shake and the cockpit will turn red. Your panels suddenly make less power, so the base is probably already over budget. Move fast: the quicker your first move, the better your score.</p>
+
+  <div class="procedure" role="group" aria-labelledby="proc-title">
+    <header><b id="proc-title">Solar storm checklist</b><span>Do these in order</span></header>
+    <ol>
+      <li><span class="box" aria-hidden="true"></span><div><b>Cut Research to 0</b><em>It’s optional. Science can wait until the storm is over.</em></div></li>
+      <li><span class="box" aria-hidden="true"></span><div><b>Cut Comms to 0</b><em>Also optional. This frees even more power.</em></div></li>
+      <li><span class="box" aria-hidden="true"></span><div><b>Set Life Support to exactly 25 kW</b><em>That’s the safe minimum. Any more takes power away from the shields.</em></div></li>
+      <li><span class="box" aria-hidden="true"></span><div><b>Push Shielding up until the power budget says 0 kW spare</b><em>Up to 40 kW. Don’t go over the budget, or the base browns out.</em></div></li>
+      <li><span class="box" aria-hidden="true"></span><div><b>Check the three lights</b><em>Air green, power green, radiation green or yellow. Yellow means you did the best you could.</em></div></li>
+      <li><span class="box" aria-hidden="true"></span><div><b>When the message says the storm is fading, keep the shields up</b><em>Radiation is still high for a while.</em></div></li>
+      <li><span class="box" aria-hidden="true"></span><div><b>When it says “All clear”, turn Research and Comms back on</b><em>Comms at 10 kW sends all your science to Earth.</em></div></li>
+    </ol>
+  </div>
+
+  <div class="two">
+    <figure>
+      <img src="img/hud-flare-before.jpg" alt="The mission screen just after a flare hits: the power budget is over by 30 kW and two lights are red" width="1280" height="720">
+      <figcaption><b>Before:</b> the flare just hit. Over budget by 30 kW, radiation too high.</figcaption>
+    </figure>
+    <figure>
+      <img src="img/hud-flare.jpg" alt="The same screen after following the checklist: power at 0 kW spare and the lights green and yellow" width="1280" height="720">
+      <figcaption><b>After:</b> checklist done. 0 kW spare, shields as high as the power allows.</figcaption>
+    </figure>
+  </div>
+
+  <div class="note warn"><p><b>Why not keep the shields at 40 kW all the time?</b> Because then there’s less power for science. Mission controllers have to choose. Protect the crew when the Sun is stormy, and do science when it’s calm.</p></div>
+</section>
+
+<section class="page kid" aria-labelledby="ch6">
+  <h2 id="ch6"><span class="ch">6</span>Practice with Probe</h2>
+  <p>Probe is a little robot who helps run the base. On your first flight, Probe walks you through the screen and then sends you a <b>practice storm</b>. The mission clock stays frozen while you practise, so your crew can’t get hurt.</p>
+  <div class="two">
+    <figure>
+      <img src="img/tutorial-flare.jpg" alt="Probe’s practice storm, with a checklist of three ticks: Life Support 25 kW or more, crew shielded from radiation, power under budget" width="1280" height="720">
+      <figcaption>The practice storm. Make all three ticks turn green and hold them there.</figcaption>
+    </figure>
+    <div>
+      <h3>How it works</h3>
+      <ol>
+        <li>Probe shows you the power budget, then each system.</li>
+        <li>A practice flare hits: an M-class flare that you <i>can</i> fully block.</li>
+        <li>Move the sliders until all three ticks turn green.</li>
+        <li>Stuck? Press <b>Hint</b>. Probe tells you which slider to move.</li>
+        <li>When you’ve done it, Probe gives you the space quiz. Then the real mission starts.</li>
+      </ol>
+      <p class="small">You can switch practice on or off on the mission select screen, or in Settings: <b>First flight</b>, <b>Every flight</b> or <b>Off</b>.</p>
+    </div>
+  </div>
+
+  <h2><span class="ch">7</span>The space quiz and your stars</h2>
+  <p>When you handle a real flare well, or finish practising with Probe, the game pauses and gives you a quick quiz of <b>3 questions</b>. One is always about your planet.</p>
+  <div class="two">
+    <div>
+      <ul>
+        <li>Each question is worth up to <b>3 stars</b>.</li>
+        <li>A wrong answer costs 1 star, but you can try again.</li>
+        <li><b>Hint</b> costs 1 star and gives you a clue. A second hint crosses out a wrong answer.</li>
+        <li>You always keep at least 1 star for getting it right.</li>
+        <li>After each answer, you learn a real space fact.</li>
+      </ul>
+      <table>
+        <thead><tr><th>Stars (out of 9)</th><th>Quiz rank</th></tr></thead>
+        <tbody>
+          <tr><td>8 or 9</td><td>Space Weather Pro</td></tr>
+          <tr><td>5 to 7</td><td>Storm Watcher</td></tr>
+          <tr><td>4 or fewer</td><td>Flare Spotter</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figure>
+      <img src="img/quiz.jpg" alt="A quiz card asking what Life Support gives the crew, with the right answer in green and a fact box underneath" width="1280" height="720">
+      <figcaption>Keyboard players can press A, B or C to answer and H for a hint.</figcaption>
+    </figure>
+  </div>
+  <p class="small">The questions get harder on higher difficulty levels. You can turn the quiz off in Settings.</p>
+</section>
+
+<section class="page kid" aria-labelledby="ch8">
+  <h2 id="ch8"><span class="ch">8</span>Your score and your rank</h2>
+  <p>Your score is called the <b>Critical Thinking Index</b>, or CTI. It goes from 0 to 100 and is made of three parts:</p>
+  <table>
+    <thead><tr><th>Part</th><th class="num">Counts for</th><th>How to do well</th></tr></thead>
+    <tbody>
+      <tr><td><b>Diagnostic speed</b></td><td class="num">40%</td><td>Move a slider within 2 seconds of the alert. After 15 seconds you get nothing for this part.</td></tr>
+      <tr><td><b>Resource efficiency</b></td><td class="num">35%</td><td>During the storm, put your power into Life Support and Shielding, not Research and Comms.</td></tr>
+      <tr><td><b>System stability</b></td><td class="num">25%</td><td>Keep the base green for as much of the mission as you can.</td></tr>
+    </tbody>
+  </table>
+  <div class="two">
+    <table>
+      <thead><tr><th class="num">CTI</th><th>Rank</th></tr></thead>
+      <tbody>
+        <tr><td class="num">85 to 100</td><td>Outpost Commander</td></tr>
+        <tr><td class="num">70 to 84</td><td>Flight Engineer</td></tr>
+        <tr><td class="num">50 to 69</td><td>Mission Specialist</td></tr>
+        <tr><td class="num">0 to 49</td><td>Cadet</td></tr>
+      </tbody>
+    </table>
+    <figure>
+      <img src="img/results.jpg" alt="The mission success screen showing a CTI of 91, Outpost Commander, and a summary from the AI Mission Analyst" width="1280" height="720">
+      <figcaption>At the end, the AI Mission Analyst tells you what went well and one thing to try next time.</figcaption>
+    </figure>
+  </div>
+  <p>The results screen also shows your crew’s radiation dose in <b>mSv</b>, and turns it into chest X-rays so it’s easier to picture. One chest X-ray is about 0.1 mSv. Press <b>REPORT</b> to download a full mission report, including your quiz stars.</p>
+
+  <h2><span class="ch">9</span>Pro tips</h2>
+  <ul>
+    <li>Watch the power budget line while you drag. It updates instantly.</li>
+    <li>At the very start, the base is calm. You don’t need to change anything until the alert.</li>
+    <li>On Cadet and Engineer, slider rows glow with “turn up” or “turn down” during a storm. On Commander you’re on your own.</li>
+    <li>Science only counts when the base has enough power, so don’t overload it to squeeze in more research.</li>
+    <li>Forgot to turn science back on? That’s the most common tip from the Mission Analyst. Do it when you see “All clear”.</li>
+    <li>Press <b>P</b> to pause and see a quick reminder of the rules.</li>
+  </ul>
+
+  <h3>Space words</h3>
+  <dl class="glossary">
+    <dt>Solar flare</dt><dd>A sudden, bright burst of energy from the Sun. Flares are graded C, M and X, and each letter is about 10 times stronger than the one before.</dd>
+    <dt>CME</dt><dd>Coronal mass ejection: a giant cloud of gas thrown out by the Sun. Fast CMEs dim your panels even more in this game.</dd>
+    <dt>Radiation</dt><dd>Invisible energy and particles that can damage living things if there’s too much.</dd>
+    <dt>mSv</dt><dd>Millisievert: a unit for radiation dose. mSv/h means per hour.</dd>
+    <dt>kW</dt><dd>Kilowatt: a unit of power.</dd>
+    <dt>Brown-out</dt><dd>When a base asks for more power than it has, so things start to fail.</dd>
+    <dt>Trade-off</dt><dd>Giving up something good (science) to get something more important (a safe crew).</dd>
+    <dt>DONKI</dt><dd>NASA’s Database Of Notifications, Knowledge, Information, which records space weather.</dd>
+  </dl>
+</section>
+
+<!-- =========================== PART 2 =========================== -->
+<section class="page teacher newpage" aria-labelledby="p2">
+  <p class="part-title" id="p2">Teacher and parent guide</p>
+  <p class="part-lede">How to use PROBE THE BASE as a short science and maths activity, with a lesson plan, discussion questions and a printable worksheet.</p>
+
+  <h2><span class="ch">10</span>What children learn</h2>
+  <table>
+    <thead><tr><th>Area</th><th>Learning goal</th><th>Where it happens in the game</th></tr></thead>
+    <tbody>
+      <tr><td><b>Science</b></td><td>The Sun is a star whose activity (flares and CMEs) affects planets and spacecraft. Air and magnetic fields protect Earth; Mars and the Moon lack that protection.</td><td>Mission briefings, the flare alert, the quiz facts</td></tr>
+      <tr><td><b>Maths</b></td><td>Addition and subtraction within 100 (the power budget). Simple fractions and percentages (20 kW blocks half, 40 kW blocks all).</td><td>Sliders and the power budget line; worksheet</td></tr>
+      <tr><td><b>Data literacy</b></td><td>Reading a live line chart and a danger threshold. Understanding that real data changes over time.</td><td>Radiation chart, data-source label</td></tr>
+      <tr><td><b>Critical thinking</b></td><td>Prioritising under pressure; accepting a cost (less science) for a bigger benefit (crew safety); reviewing a decision afterwards.</td><td>The storm, the CTI breakdown, the Mission Analyst</td></tr>
+    </tbody>
+  </table>
+  <p class="small">The game suits ages 7 to 12. Younger players do best on Cadet with practice turned on; older players can try Commander, where hints are off and the quiz is harder.</p>
+
+  <h2><span class="ch">11</span>A 45-minute lesson</h2>
+  <ol class="timeline">
+    <li><span class="t">0 to 5 min · Hook.</span> Ask: “What is the Sun?” Show a photo of the northern lights and explain that they are caused by particles from the Sun.</li>
+    <li><span class="t">5 to 15 min · Practise with Probe.</span> Children work in pairs on one device. Practice is on by default for a first flight. Ask pairs to read Probe’s messages aloud.</li>
+    <li><span class="t">15 to 30 min · Mission in pairs.</span> One child is the <i>systems officer</i> and reads the three lights and the tip aloud. The other is the <i>power officer</i> and moves the sliders. Swap roles for a second mission on the other planet.</li>
+    <li><span class="t">30 to 40 min · Debrief.</span> Pairs fill in the mission log (chapter 14) and try two worksheet puzzles (chapter 13). Older groups can open the downloaded report.</li>
+    <li><span class="t">40 to 45 min · Share.</span> Each pair answers: “What did you give up to protect your crew, and was it worth it?”</li>
+  </ol>
+  <div class="note tip"><p><b>Before the lesson:</b> open the game once on each device so it caches. It then works offline. If the classroom network blocks NASA, the game uses archived NASA flares automatically, and nothing breaks.</p></div>
+
+  <h2><span class="ch">12</span>Questions to talk about</h2>
+  <ul>
+    <li>Why did your solar panels make less power during the storm?</li>
+    <li>Why couldn’t you block all the radiation at the peak of the storm? What would a real base need to do better? (Bigger panels, batteries, thicker walls, a storm shelter.)</li>
+    <li>Earth has air and a magnetic field to protect us. Which one does Mars have a little of? Which does the Moon have?</li>
+    <li>Real Artemis astronauts plan to shelter behind supply bags inside the Orion capsule during a storm. Why do heavy supplies and water help?</li>
+    <li>Is it ever right to switch off science? Who decides, and how?</li>
+    <li>Your score rewarded speed. When is it better to slow down and think?</li>
+  </ul>
+</section>
+
+<section class="page teacher" aria-labelledby="ch13">
+  <h2 id="ch13"><span class="ch">13</span>Worksheet: power puzzles</h2>
+  <p>Use the rules from the game: Life Support needs at least 25 kW; 20 kW of Shielding blocks half the radiation and 40 kW blocks all of it; radiation reaching the crew must be 0.2 mSv/h or less to be safe.</p>
+  <ol class="worksheet">
+    <li>Your panels make <b>60 kW</b>. Life Support uses 25 kW and Shielding uses 30 kW. How many kW are left for Research and Comms?<span class="answer-line"></span></li>
+    <li>Your panels make <b>70 kW</b>. You want all the radiation blocked and Life Support at its minimum. How much power is that? Can you also run Research at 10 kW?<span class="answer-line"></span></li>
+    <li>Radiation outside is <b>2.0 mSv/h</b> and Shielding is at 20 kW. How much reaches the crew? Is that safe?<span class="answer-line"></span></li>
+    <li>Shielding at <b>30 kW</b> blocks three-quarters of the radiation. Outside it is 0.8 mSv/h. How much reaches the crew? Is that safe?<span class="answer-line"></span></li>
+    <li>Your crew got a dose of <b>15 mSv</b>. One chest X-ray is about 0.1 mSv. How many chest X-rays is that?<span class="answer-line"></span></li>
+    <li><i>Challenge.</i> NASA’s career limit for an astronaut is <b>600 mSv</b>. How many 15 mSv missions could an astronaut fly before reaching it?<span class="answer-line"></span></li>
+  </ol>
+
+  <h3>Answer key</h3>
+  <table>
+    <thead><tr><th class="num">#</th><th>Answer</th></tr></thead>
+    <tbody>
+      <tr><td class="num">1</td><td>25 + 30 = 55, and 60 − 55 = <b>5 kW</b>.</td></tr>
+      <tr><td class="num">2</td><td>25 + 40 = <b>65 kW</b>, leaving 5 kW. Research at 10 kW would make 75 kW, which is over budget, so <b>no</b>.</td></tr>
+      <tr><td class="num">3</td><td>Half of 2.0 = <b>1.0 mSv/h</b>. That is more than 0.2, so <b>not safe</b>.</td></tr>
+      <tr><td class="num">4</td><td>A quarter of 0.8 = <b>0.2 mSv/h</b>. That is exactly the limit, so <b>just safe</b>.</td></tr>
+      <tr><td class="num">5</td><td>15 ÷ 0.1 = <b>150 chest X-rays</b>.</td></tr>
+      <tr><td class="num">6</td><td>600 ÷ 15 = <b>40 missions</b>. (In the game, 1 second is 1 hour, so a 90-second mission is about 4 days on the base.)</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="page teacher" aria-labelledby="ch14">
+  <h2 id="ch14"><span class="ch">14</span>Mission log</h2>
+  <p>Fill in one row after each mission. The numbers are on the results screen.</p>
+  <table class="log">
+    <thead><tr><th>Date</th><th>Planet</th><th>Difficulty</th><th class="num">CTI</th><th>Rank</th><th class="num">Quiz stars</th><th>One thing I’ll try next time</th></tr></thead>
+    <tbody>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <h2><span class="ch">15</span>Where the science comes from</h2>
+  <h3>NASA DONKI: real space weather</h3>
+  <p>When live data is on, the game asks NASA’s DONKI database for the newest solar flare and CME from the last 30 days. A bigger flare class makes the in-game radiation spike stronger, and a faster CME dims the solar panels a little more. Both effects are capped so every mission can still be won. Results are cached for an hour.</p>
+  <p>If the network is slow (over 2.5 seconds), blocked, or rate-limited, the game uses archived DONKI events instead: the <b>X8.2 flare of 10 September 2017</b> for Mars, which NASA’s Curiosity rover also measured on the Martian surface, and the <b>X9.0 flare of 3 October 2024</b> for the Moon. The label under the radiation chart always says which one you’re flying.</p>
+  <h3>NASA OSDR and NASA-STD-3001: crew health</h3>
+  <p>How fast crew health falls from radiation, brown-outs and low life support is set by a teaching model informed by NASA’s Open Science Data Repository and the NASA-STD-3001 career limit of 600 mSv. The numbers are tuned for a 90-second game.</p>
+  <div class="note warn"><p><b>Important:</b> the health model and the chest X-ray comparison are a simplified teaching model, not medical advice. Real radiation risk depends on the type of radiation, the dose rate and the person.</p></div>
+  <h3>Privacy</h3>
+  <p>The game has no accounts and no tracking. Settings, best scores and quiz stars are saved only in the browser on that device. The only network request goes to api.nasa.gov for space-weather data, and it contains no personal information.</p>
+</section>
+
+<!-- =========================== QUICK REFERENCE =========================== -->
+<section class="page keys newpage" aria-labelledby="qr">
+  <h2 id="qr">Quick reference</h2>
+  <div class="two">
+    <div>
+      <h3>Controls</h3>
+      <table>
+        <tbody>
+          <tr><td>Start screen</td><td>Tap anywhere or press any key</td></tr>
+          <tr><td>Main menu</td><td><kbd>←</kbd> <kbd>→</kbd> <kbd>Enter</kbd> · <kbd>O</kbd> settings · <kbd>H</kbd> manual</td></tr>
+          <tr><td>Mission select</td><td><kbd>M</kbd> Mars · <kbd>L</kbd> Moon · <kbd>Esc</kbd> back · <kbd>H</kbd> manual</td></tr>
+          <tr><td>Mission</td><td>Drag sliders, or Tab to a slider and use arrow keys · <kbd>P</kbd> or <kbd>Esc</kbd> pause</td></tr>
+          <tr><td>Quiz</td><td><kbd>A</kbd> <kbd>B</kbd> <kbd>C</kbd> or <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> answer · <kbd>H</kbd> hint</td></tr>
+          <tr><td>Results</td><td><kbd>Enter</kbd> play again</td></tr>
+        </tbody>
+      </table>
+      <h3>Settings</h3>
+      <table>
+        <tbody>
+          <tr><td>Sound effects</td><td>On or off (also the speaker button)</td></tr>
+          <tr><td>NASA live data</td><td>Live, or offline archive flares only</td></tr>
+          <tr><td>Difficulty</td><td>Cadet, Engineer or Commander</td></tr>
+          <tr><td>Practice with Probe</td><td>First flight, every flight or off</td></tr>
+          <tr><td>Space quiz</td><td>On or off</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3>Numbers to remember</h3>
+      <table>
+        <tbody>
+          <tr><td>Mission length</td><td class="num">90 s (90 base hours)</td></tr>
+          <tr><td>Life Support minimum</td><td class="num">25 kW</td></tr>
+          <tr><td>Shielding that blocks all radiation</td><td class="num">40 kW</td></tr>
+          <tr><td>Safe radiation reaching crew</td><td class="num">0.2 mSv/h or less</td></tr>
+          <tr><td>Comms for a full uplink</td><td class="num">10 kW</td></tr>
+          <tr><td>Slider range</td><td class="num">0 to 50 kW</td></tr>
+          <tr><td>One chest X-ray</td><td class="num">≈ 0.1 mSv</td></tr>
+          <tr><td>NASA career limit</td><td class="num">600 mSv</td></tr>
+        </tbody>
+      </table>
+      <h3>Difficulty levels</h3>
+      <table>
+        <thead><tr><th>Level</th><th>Crew damage</th><th>Slider hints</th><th>Quiz</th></tr></thead>
+        <tbody>
+          <tr><td>Cadet</td><td>Gentle</td><td>Yes</td><td>Easy and medium</td></tr>
+          <tr><td>Engineer</td><td>Normal</td><td>Yes</td><td>All levels</td></tr>
+          <tr><td>Commander</td><td>Harsh</td><td>No</td><td>Medium and hard</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="page teacher newpage" aria-labelledby="key">
+  <h2 id="key">Quiz answer key (for grown-ups)</h2>
+  <p class="small">Answers appear in a shuffled order in the game. Level 1 is easy, 3 is hard.</p>
+  <table class="long">
+    <thead><tr><th>Question</th><th class="num">Level</th><th>Correct answer</th></tr></thead>
+    <tbody>
+      <tr><td>What is the Sun?</td><td class="num">1</td><td>A star</td></tr>
+      <tr><td>What is a solar flare?</td><td class="num">1</td><td>A sudden burst of energy from the Sun</td></tr>
+      <tr><td>Which letter means the biggest flare?</td><td class="num">1</td><td>X</td></tr>
+      <tr><td>What does Shielding do in your base?</td><td class="num">1</td><td>Blocks radiation from reaching the crew</td></tr>
+      <tr><td>What does Life Support give the crew?</td><td class="num">1</td><td>Air to breathe and warmth</td></tr>
+      <tr><td>Which systems can you turn down in a storm?</td><td class="num">1</td><td>Research and Comms</td></tr>
+      <tr><td>How much Shielding blocks all the radiation?</td><td class="num">1</td><td>40 kW</td></tr>
+      <tr><td>Which NASA program is going back to the Moon? (Moon)</td><td class="num">1</td><td>Artemis</td></tr>
+      <tr><td>An M flare is how many times stronger than a C flare?</td><td class="num">2</td><td>10 times</td></tr>
+      <tr><td>What can astronauts use to build a storm shelter?</td><td class="num">2</td><td>Water and supplies</td></tr>
+      <tr><td>How long does a CME usually take to reach Earth?</td><td class="num">2</td><td>About 1 to 3 days</td></tr>
+      <tr><td>What makes the northern lights?</td><td class="num">2</td><td>Particles from the Sun hitting our air</td></tr>
+      <tr><td>Panels make 60 kW; 25 + 30 kW used. What’s left?</td><td class="num">2</td><td>5 kW</td></tr>
+      <tr><td>What does “mSv” measure?</td><td class="num">2</td><td>How much radiation a body takes in</td></tr>
+      <tr><td>Why does a Mars base need more protection? (Mars)</td><td class="num">2</td><td>Thin air and no global magnetic shield</td></tr>
+      <tr><td>What has cut power on Mars rover panels? (Mars)</td><td class="num">2</td><td>Dust covering the panels</td></tr>
+      <tr><td>Why does a Moon base need shielding? (Moon)</td><td class="num">2</td><td>Almost no air and no magnetic shield</td></tr>
+      <tr><td>How strong is gravity on the Moon? (Moon)</td><td class="num">2</td><td>About one-sixth of Earth’s</td></tr>
+      <tr><td>1 mSv is how many 0.1 mSv chest X-rays?</td><td class="num">3</td><td>10</td></tr>
+      <tr><td>Which NASA database tracks flares and CMEs?</td><td class="num">3</td><td>DONKI</td></tr>
+      <tr><td>Which rover measured the 2017 flare on Mars? (Mars)</td><td class="num">3</td><td>Curiosity</td></tr>
+      <tr><td>How long is a sol? (Mars)</td><td class="num">3</td><td>About 24 hours and 40 minutes</td></tr>
+      <tr><td>How long is a night on the Moon? (Moon)</td><td class="num">3</td><td>About 14 Earth days</td></tr>
+    </tbody>
+  </table>
+  <p class="small">Credits: space-weather data from NASA DONKI (Community Coordinated Modeling Center) via api.nasa.gov. Crew-health calibration informed by NASA OSDR and NASA-STD-3001. Game and manual by the PROBE THE BASE team. MIT licence. This project is not endorsed by NASA.</p>
+</section>
+
+</main>
+</body>
+</html>

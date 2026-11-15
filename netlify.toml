@@ -1,0 +1,16 @@
+# Netlify: static site, no build needed (css/tailwind.css and js/vendor are committed).
+[build]
+  publish = "."
+  command = "npm test"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self' https://api.nasa.gov; media-src 'self' data: blob:"

@@ -1,0 +1,24 @@
+{
+  "name": "probe-the-base",
+  "version": "3.2.0",
+  "description": "PROBE THE BASE - NASA Space Apps junior mission trainer with PROBE Academy tutorial, space quiz and mission manual (Phaser 3 + Tailwind + Chart.js + NASA DONKI/OSDR)",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i src/tailwind.input.css -o css/tailwind.css --minify",
+    "watch:css": "tailwindcss -c tailwind.config.js -i src/tailwind.input.css -o css/tailwind.css --watch",
+    "vendor": "node tools/copy-vendor.js",
+    "assets": "python3 tools/prepare_assets.py",
+    "build": "npm run vendor && npm run build:css",
+    "test": "node --test tests/simulation.test.js tests/academy.test.js tests/transitions.test.js",
+    "serve": "npx --yes http-server . -p 8000 -c-1"
+  },
+  "devDependencies": {
+    "chart.js": "4.4.1",
+    "phaser": "3.60.0",
+    "tailwindcss": "3.4.17"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

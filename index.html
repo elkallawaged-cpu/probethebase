@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#020617">
+    <meta name="description" content="PROBE THE BASE: a NASA Space Apps space-mission trainer for kids 7-12. Balance power on a Mars or Moon base during real NASA DONKI solar flares.">
+    <title>PROBE THE BASE | NASA Space Apps Junior Mission Trainer</title>
+    <link rel="icon" href="assets/images/badge_success.png" type="image/png">
+
+    <!-- Styles: precompiled Tailwind (npm run build:css) + game-specific CSS -->
+    <link rel="stylesheet" href="css/tailwind.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preload" href="assets/fonts/fredoka-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/nunito-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="css/academy.css">
+
+    <!-- Core libraries, vendored locally so the game runs offline at a judging table -->
+    <script src="js/vendor/phaser.min.js"></script>   <!-- Phaser 3.60.0 -->
+    <script src="js/vendor/chart.umd.js"></script>     <!-- Chart.js 4.4.1 -->
+
+    <!-- Application logic (order matters) -->
+    <script src="js/assets.js"></script>
+    <script src="js/simulation.js"></script>
+    <script src="js/scenarios.js"></script>
+    <script src="js/CtiEvaluator.js"></script>
+    <script src="js/transitions.js"></script>   <!-- v3.2 scene + HUD fades -->
+    <script src="js/academy.js"></script>      <!-- PROBE Academy: tutorial + space quiz -->
+</head>
+<body class="m-0 h-[100dvh] w-screen overflow-hidden bg-slate-950 font-sans text-white select-none flex items-center justify-center">
+
+    <!-- Fixed 1280x720 stage; main.js scales it (canvas + HUD together) to fit any screen -->
+    <div id="game-container" class="relative shrink-0 w-[1280px] h-[720px] overflow-hidden rounded-2xl ring-1 ring-cyan-500/30 shadow-[0_0_50px_rgba(0,240,255,0.18)]">
+
+        <!-- Phaser 3 canvas mounts here -->
+
+        <!-- Sound toggle (always available) -->
+        <button id="mute-btn" type="button" aria-label="Toggle sound" aria-pressed="false"
+            class="absolute bottom-6 right-4 z-40 h-11 w-11 rounded-full border border-cyan-500/40 bg-slate-900/80 text-xl leading-none hover:border-cyan-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">🔊</button>
+
+        <!-- Mission manual (opens the printable handbook in a new tab) -->
+        <a id="help-btn" href="manual/" target="_blank" rel="noopener" aria-label="Open the mission manual" title="Mission manual"
+            class="absolute bottom-6 right-[4.5rem] z-40 flex h-11 w-11 items-center justify-center rounded-full border border-amber-400/50 bg-slate-900/80 text-lg font-black text-amber-300 no-underline hover:border-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300">?</a>
+
+        <!-- ================= Mission HUD (Tailwind glassmorphism) ================= -->
+        <div id="hud-overlay" class="hidden absolute inset-0 z-10 pointer-events-none">
+
+            <!-- Top telemetry strip -->
+            <div class="pointer-events-auto absolute left-4 right-4 top-4 flex h-[84px] items-center justify-between gap-4 rounded-xl border border-cyan-500/30 bg-slate-900/85 px-5 shadow-xl backdrop-blur-md">
+
+                <div class="w-44">
+                    <p class="hud-label">Crew Health</p>
+                    <div class="mt-1 h-3 w-full overflow-hidden rounded-full border border-slate-700 bg-slate-800">
+                        <div id="health-bar" class="h-full w-full transition-all duration-300"></div>
+                    </div>
+                    <p id="health-val" class="mt-1 text-sm font-black text-emerald-300">100%</p>
+                </div>
+
+                <div class="w-48">
+                    <p class="hud-label">DONKI Solar Radiation</p>
+                    <p id="radiation-val" class="text-base font-black text-rose-300">0.08 mSv/h</p>
+                    <p class="text-[11px] text-slate-300">Reaching crew: <span id="net-radiation-val" class="font-bold text-cyan-300">0.03 mSv/h</span></p>
+                </div>
+
+                <div class="w-32">
+                    <p class="hud-label">Power Used</p>
+                    <p id="power-val" class="text-base font-black text-cyan-300">90 / 100 kW</p>
+                    <p id="mission-name" class="truncate text-[11px] text-slate-300">Mars Outpost</p>
+                </div>
+
+                <div class="w-24">
+                    <p class="hud-label">Science</p>
+                    <p class="text-base font-black text-violet-300"><span id="science-val">0</span> pts</p>
+                    <p class="text-[11px] text-slate-300">sent to Earth</p>
+                </div>
+
+                <div class="w-20">
+                    <p class="hud-label">Time Left</p>
+                    <p id="timer-val" class="text-base font-black text-white">90s</p>
+                </div>
+
+                <div class="w-28 rounded-lg border border-cyan-400/40 bg-cyan-950/70 px-3 py-1.5 text-center">
+                    <p class="text-[10px] font-semibold tracking-widest text-cyan-300">AI CTI</p>
+                    <p id="live-cti-val" class="text-xl font-black leading-tight text-white">100</p>
+                </div>
+
+                <div class="flex flex-col items-end gap-1">
+                    <div class="relative h-12 w-52">
+                        <canvas id="telemetryChart" aria-label="Radiation chart: red is solar radiation, cyan is what reaches the crew"></canvas>
+                    </div>
+                    <p id="data-source" class="max-w-[230px] truncate text-[10px] text-slate-400"></p>
+                </div>
+
+                <button id="pause-btn" type="button" class="h-9 w-20 rounded-lg border border-cyan-500/50 bg-slate-800 text-xs font-bold tracking-wider text-cyan-200 hover:bg-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300">PAUSE</button>
+            </div>
+
+
+            <!-- System checks: three traffic lights a 7-year-old can read at a glance -->
+            <section id="checks-panel" aria-label="System checks" class="pointer-events-auto absolute left-4 top-[112px] w-[232px] rounded-xl border border-cyan-500/30 bg-slate-900/85 p-4 shadow-xl backdrop-blur-md">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-bold tracking-wide text-cyan-300">System checks</h3>
+                    <span id="phase-chip" class="phase-chip phase-calm">Calm</span>
+                </div>
+                <ul class="mt-3 space-y-2" role="list">
+                    <li id="check-life" class="check-row is-ok"><span class="check-light" aria-hidden="true"></span><span class="flex-1">Air and heat</span><span class="check-val" id="check-life-val">35 kW</span></li>
+                    <li id="check-rad" class="check-row is-ok"><span class="check-light" aria-hidden="true"></span><span class="flex-1">Radiation</span><span class="check-val" id="check-rad-val">safe</span></li>
+                    <li id="check-power" class="check-row is-ok"><span class="check-light" aria-hidden="true"></span><span class="flex-1">Power</span><span class="check-val" id="check-power-val">OK</span></li>
+                </ul>
+                <p id="coach-tip" class="coach-tip mt-3" aria-live="polite">Keep all three lights green.</p>
+            </section>
+
+            <!-- Subsystem power allocation -->
+            <div id="slider-panel" class="pointer-events-auto absolute right-4 top-[112px] w-80 space-y-3 rounded-xl border border-cyan-500/40 bg-slate-900/90 p-5 shadow-2xl backdrop-blur-lg">
+                <h3 class="border-b border-cyan-500/20 pb-2 text-xs font-bold uppercase tracking-wider text-cyan-400">Subsystem Power Allocation</h3>
+
+                <div id="row-ls" class="slider-row space-y-1 rounded-lg">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="flex items-center gap-2 font-medium text-slate-200"><i class="icon icon-ls" aria-hidden="true"></i>Life Support <em class="tag tag-crit">critical</em></span>
+                        <span class="font-bold text-cyan-400"><span id="val-ls">35</span> kW</span>
+                    </div>
+                    <input type="range" id="slider-ls" min="0" max="50" value="35" class="w-full" aria-label="Life support power in kilowatts">
+                </div>
+
+                <div id="row-shield" class="slider-row space-y-1 rounded-lg">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="flex items-center gap-2 font-medium text-slate-200"><i class="icon icon-shield" aria-hidden="true"></i>Shielding Grid <em class="tag tag-crit">critical</em></span>
+                        <span class="font-bold text-cyan-400"><span id="val-shield">25</span> kW</span>
+                    </div>
+                    <input type="range" id="slider-shield" min="0" max="50" value="25" class="w-full" aria-label="Shielding grid power in kilowatts">
+                </div>
+
+                <div id="row-research" class="slider-row space-y-1 rounded-lg">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="flex items-center gap-2 font-medium text-slate-200"><i class="icon icon-research" aria-hidden="true"></i>Science Research <em class="tag tag-opt">optional</em></span>
+                        <span class="font-bold text-cyan-400"><span id="val-research">20</span> kW</span>
+                    </div>
+                    <input type="range" id="slider-research" min="0" max="50" value="20" class="w-full" aria-label="Science research power in kilowatts">
+                </div>
+
+                <div id="row-comms" class="slider-row space-y-1 rounded-lg">
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="flex items-center gap-2 font-medium text-slate-200"><i class="icon icon-comms" aria-hidden="true"></i>Comms Array <em class="tag tag-opt">optional</em></span>
+                        <span class="font-bold text-cyan-400"><span id="val-comms">10</span> kW</span>
+                    </div>
+                    <input type="range" id="slider-comms" min="0" max="50" value="10" class="w-full" aria-label="Comms array power in kilowatts">
+                </div>
+
+                <div id="budget-row" class="flex items-center justify-between rounded-lg border-t border-cyan-500/20 pt-2 text-xs">
+                    <span class="text-slate-300">Power budget</span>
+                    <span id="budget-val" class="font-black text-emerald-300">10 kW spare</span>
+                </div>
+                <p class="text-[10px] leading-snug text-slate-400">Shielding: 40 kW blocks 100% of radiation. Keep Life Support at 25 kW or more.</p>
+            </div>
+
+            <!-- Pause overlay: a quick refresher card -->
+            <div id="pause-overlay" class="hidden pointer-events-auto absolute inset-0 z-30 flex cursor-pointer flex-col items-center justify-center bg-slate-950/75 backdrop-blur-sm">
+                <p class="text-4xl font-black tracking-widest text-white">PAUSED</p>
+                <div class="mt-5 w-[520px] rounded-2xl border border-cyan-500/30 bg-slate-900/90 p-5 text-left text-sm leading-relaxed text-slate-200">
+                    <p class="mb-2 font-bold text-cyan-300">Quick reminder</p>
+                    <p><span class="font-bold text-emerald-300">Life Support</span> stays at 25 kW or more, always.</p>
+                    <p><span class="font-bold text-cyan-300">Shielding</span>: 40 kW blocks all the radiation, 20 kW blocks half.</p>
+                    <p><span class="font-bold text-violet-300">Research and Comms</span> are optional. Cut them in a storm, turn them back on after.</p>
+                    <p>Never use more power than the panels make.</p>
+                </div>
+                <p class="mt-4 text-sm text-cyan-300">Click anywhere or press P to keep playing</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shown on narrow portrait phones -->
+    <div id="rotate-hint" role="status">Rotate your device to landscape to play</div>
+
+    <noscript><p class="p-6 text-center">PROBE THE BASE needs JavaScript enabled.</p></noscript>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
